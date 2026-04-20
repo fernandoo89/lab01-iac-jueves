@@ -1,7 +1,27 @@
-variable "backend_port" {
-  default = 4002
+variable "web_port" {
+  type = map(number)
+  default = {
+    localhost = 4001
+    dev       = 5001
+  }
+}
+
+variable "api_port" {
+  type = map(number)
+  default = {
+    localhost = 4002
+    dev       = 5002
+  }
 }
 
 variable "db_port" {
-  default = 4003
+  type = map(number)
+  default = {
+    localhost = 4003
+    dev       = 5003
+  }
+}
+
+variable "db_password" {
+  default = "postgres123"
 }

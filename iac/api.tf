@@ -1,9 +1,16 @@
-resource "docker_container" "web" {
-  name  = "web-${terraform.workspace}-01"
-  image = "lab/web"
+resource "docker_image" "api" {
+  name         = "node:alpine"
+  keep_locally = true
+}
 
-   ports {
-    internal = "80"
-    external = var.web_port[terraform.workspace]
+resource "docker_container" "api" {
+  name  = "api-${terraform.workspace}"
+  image = docker_image.api.image_id
+
+  ports {
+    internal = 3000
+    external = var.api_port[terraform.workspace]
   }
+
+  command = ["node", "-e", "require('http').createServer((req,res)=>{res.end('API ${terraform.workspace}')}).listen(3000)"]
 }
